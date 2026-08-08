@@ -23,10 +23,13 @@ from pathlib import Path
 # do not rename
 async def custom_site():
     import embed
-    platform.document.body.style.background = "#7f7f7f"
+    # Keep the host black while Wasm boots (default pygbag uses #7f7f7f).
+    platform.document.body.style.background = "#000000"
+    platform.document.documentElement.style.background = "#000000"
 
     platform.window.transfer.hidden = true
     platform.window.canvas.style.visibility = "visible"
+    platform.window.canvas.style.background = "#000000"
 
 
     bundle = "proj_02-group_10984"
@@ -205,17 +208,11 @@ function show_infobox() {
         }
 
         #infobox {
-            position: fixed; /* center relative to viewport */
-            background: green;
-            color: blue;
-            font-weight: bold;
-            padding: 12px 24px;
- /*           display: none; */
-            z-index: 999999;
+            display: none !important;
         }
         div.emscripten { text-align: center; }
-        div.emscripten_border { border: 1px solid black; }
-        div.thick_border { border: 4px solid black; }
+        div.emscripten_border { border: none; }
+        div.thick_border { border: none; }
 
         /*
           Host page is exactly the game surface. Parent iframe is capped at 800×800,
@@ -227,14 +224,14 @@ function show_infobox() {
             overflow: hidden;
             margin: 0;
             padding: 0;
-            background: #000;
+            background: #000 !important;
         }
 
         /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
         canvas.emscripten {
             border: 0 none !important;
             outline: none !important;
-            background-color: #000;
+            background-color: #000 !important;
             width: 100%;
             height: 100%;
             z-index: 5;
@@ -249,15 +246,34 @@ function show_infobox() {
             font-family: arial;
             margin: 0;
             padding: 0;
-            background-color: #000;
+            background-color: #000 !important;
+        }
+
+        /* Solid black loading veil until the game paints */
+        #embed-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            color: rgba(255, 255, 255, 0.7);
+            font: 600 14px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+            letter-spacing: 0.04em;
+            pointer-events: none;
+            transition: opacity 180ms ease;
+        }
+
+        #embed-loader.is-done {
+            opacity: 0;
         }
 
         /* Hide pygbag chrome in portfolio embed */
         #pyconsole,
         #crt,
         #transfer,
-        #dlg,
-        #infobox {
+        #dlg {
             display: none !important;
         }
 
@@ -307,6 +323,8 @@ function show_infobox() {
 </head>
 
 <body>
+
+    <div id="embed-loader" aria-live="polite">Loading…</div>
 
     <div id="transfer" align=center>
 <!--        <div class="spinner" id='spinner'></div> -->
@@ -395,30 +413,40 @@ frameborder="1"
         console.warn("TODO: panda3d canvas monitor", self, ecw, ech)
     }
 
+    function dismissEmbedLoader() {
+        const el = document.getElementById("embed-loader");
+        if (!el || el.classList.contains("is-done")) return;
+        el.classList.add("is-done");
+        setTimeout(() => { el.hidden = true; }, 220);
+    }
+
     async function custom_onload(debug_hidden) {
         // this is called before anything python is loaded
         // make your js customization here
         console.log(__FILE__, "custom_onload")
+
+        document.documentElement.style.background = "#000";
+        document.body.style.background = "#000";
 
         pyconsole.hidden = debug_hidden
         system.hidden = debug_hidden
         transfer.hidden = debug_hidden
         info.hidden = debug_hidden
         box.hidden =  debug_hidden
-
-        show_infobox()
+        if (infobox) infobox.style.display = "none";
     }
 
     function custom_prerun(){
         // no python main and no (MEMFS + VFS) yet.
         console.log(__FILE__, "custom_prerun")
-
+        document.body.style.background = "#000";
     }
 
     function custom_postrun(){
         // python main and no VFS filesystem yet.
         console.log(__FILE__, "custom_postrun")
-
+        // Game loop is about to paint — drop the loading veil shortly after.
+        setTimeout(dismissEmbedLoader, 400);
     }
 
     function debug() {
