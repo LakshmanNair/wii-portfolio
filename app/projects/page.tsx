@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import SectionLayout from '@/components/ui/section-layout';
-import { Rocket, ExternalLink } from 'lucide-react';
+import { Rocket, ExternalLink, Gamepad2, X } from 'lucide-react';
 import { SOCIALS } from '@/lib/profile';
 
 const GithubIcon = () => (
@@ -10,8 +11,25 @@ const GithubIcon = () => (
     </svg>
 );
 
+// Served from this Next.js app's public/checkers (Vercel). Same-origin keeps
+// the Wasm loader simple; GitHub Pages can replace this once Pages is enabled
+// on LakshmanNair7/Checkers-AI (Settings → Pages → gh-pages branch).
+const CHECKERS_EMBED = '/checkers/';
+
+type Project = {
+    title: string;
+    description: string;
+    tags: string[];
+    type: string;
+    github: string;
+    demo: string;
+    color: string;
+    embed?: string;
+    icon?: 'rocket' | 'gamepad';
+};
+
 // Demo links and repos land in the next pass.
-const projects = [
+const projects: Project[] = [
     {
         title: 'Agentic AI Web Automation Engine',
         description:
@@ -21,6 +39,19 @@ const projects = [
         github: SOCIALS.github,
         demo: '',
         color: '#CE93D8',
+        icon: 'rocket',
+    },
+    {
+        title: 'Checkers & Decision Trees',
+        description:
+            'CSC111 AI checkers — pick a Minimax / Alpha-Beta / Aggressor matchup and watch a live animated game in the browser (Python + Pygame compiled to WebAssembly).',
+        tags: ['Python', 'Pygame', 'Minimax', 'WebAssembly'],
+        type: 'code',
+        github: 'https://github.com/LakshmanNair7/Checkers-AI',
+        demo: CHECKERS_EMBED,
+        embed: CHECKERS_EMBED,
+        color: '#EF5350',
+        icon: 'gamepad',
     },
     {
         title: 'GIST — Geospatial Analytics Platform',
@@ -31,6 +62,7 @@ const projects = [
         github: '',
         demo: '',
         color: '#4FC3F7',
+        icon: 'rocket',
     },
     {
         title: 'Expense Management Platform',
@@ -41,6 +73,7 @@ const projects = [
         github: '',
         demo: '',
         color: '#81C784',
+        icon: 'rocket',
     },
     {
         title: 'AI Fitness Web App',
@@ -51,10 +84,13 @@ const projects = [
         github: '',
         demo: 'https://teamrocketaifitnessappd4.vercel.app/',
         color: '#FFB74D',
+        icon: 'rocket',
     },
 ];
 
 export default function ProjectsPage() {
+    const [embedOpen, setEmbedOpen] = useState(false);
+
     return (
         <SectionLayout title="Projects" subtitle="Things I've built" accentColor="#EF5350">
             <div className="mono-label" style={{ marginBottom: '2rem' }}>
@@ -69,23 +105,43 @@ export default function ProjectsPage() {
                         className="project-card"
                         style={{ animationDelay: `${i * 100}ms`, animation: 'slideUp 500ms ease both' }}
                     >
-                        {/* Thumbnail — screenshots and demo videos land in the next pass */}
+                        {/* Thumbnail — Checkers card opens a live Wasm embed */}
                         <div className="project-thumbnail">
-                            <div className="relative z-10 flex flex-col items-center gap-2">
-                                <div
-                                    className="text-4xl"
-                                    style={{ filter: `drop-shadow(0 0 20px ${project.color}40)` }}
+                            {project.embed ? (
+                                <button
+                                    type="button"
+                                    className="project-embed-trigger"
+                                    onClick={() => setEmbedOpen(true)}
+                                    aria-label={`Play ${project.title} live`}
                                 >
-                                    🚀
+                                    <Gamepad2
+                                        size={40}
+                                        style={{ filter: `drop-shadow(0 0 20px ${project.color}80)` }}
+                                    />
+                                    <span className="text-white/70 text-xs font-mono tracking-wider">
+                                        PLAY LIVE DEMO
+                                    </span>
+                                    <span className="text-white/35 text-[10px] font-mono">
+                                        Python · Pygame · Wasm
+                                    </span>
+                                </button>
+                            ) : (
+                                <div className="relative z-10 flex flex-col items-center gap-2">
+                                    <div
+                                        className="text-4xl"
+                                        style={{ filter: `drop-shadow(0 0 20px ${project.color}40)` }}
+                                    >
+                                        🚀
+                                    </div>
+                                    <span className="text-white/40 text-xs font-mono">
+                                        {project.demo ? 'LIVE PROJECT' : 'CASE STUDY'}
+                                    </span>
                                 </div>
-                                <span className="text-white/40 text-xs font-mono">
-                                    {project.demo ? 'LIVE PROJECT' : 'CASE STUDY'}
-                                </span>
-                            </div>
+                            )}
 
                             {/* Color accent glow */}
                             <div
-                                className="absolute inset-0 opacity-20"
+                                className="absolute inset-0 opacity-20 pointer-events-none"
                                 style={{ background: `radial-gradient(circle at 50% 50%, ${project.color}, transparent 70%)` }}
                             />
                         </div>
@@ -125,6 +181,41 @@ export default function ProjectsPage() {
                     </div>
                 ))}
             </div>
+
+            {embedOpen && (
+                <div
+                    className="project-embed-modal"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Checkers & Decision Trees live demo"
+                    onClick={() => setEmbedOpen(false)}
+                >
+                    <div
+                        className="project-embed-panel"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="project-embed-bar">
+                            <span className="font-mono text-sm text-white/80">
+                                Checkers & Decision Trees
+                            </span>
+                            <button
+                                type="button"
+                                className="project-embed-close"
+                                onClick={() => setEmbedOpen(false)}
+                                aria-label="Close live demo"
+                            >
+                                <X size={18} />
+                            </button>
+                        </div>
+                        <iframe
+                            src={CHECKERS_EMBED}
+                            title="Checkers & Decision Trees"
+                            className="project-embed-frame"
+                            allow="autoplay"
+                        />
+                    </div>
+                </div>
+            )}
         </SectionLayout>
     );
 }
