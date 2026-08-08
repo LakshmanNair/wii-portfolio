@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import SectionLayout from '@/components/ui/section-layout';
 import { Rocket, ExternalLink, Gamepad2, X } from 'lucide-react';
 import { SOCIALS } from '@/lib/profile';
@@ -90,6 +91,23 @@ const projects: Project[] = [
 
 export default function ProjectsPage() {
     const [embedOpen, setEmbedOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => setMounted(true), []);
+
+    useEffect(() => {
+        if (!embedOpen) return;
+        const prev = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setEmbedOpen(false);
+        };
+        window.addEventListener('keydown', onKey);
+        return () => {
+            document.body.style.overflow = prev;
+            window.removeEventListener('keydown', onKey);
+        };
+    }, [embedOpen]);
 
     return (
         <SectionLayout title="Projects" subtitle="Things I've built" accentColor="#EF5350">
@@ -182,40 +200,43 @@ export default function ProjectsPage() {
                 ))}
             </div>
 
-            {embedOpen && (
-                <div
-                    className="project-embed-modal"
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label="Checkers & Decision Trees live demo"
-                    onClick={() => setEmbedOpen(false)}
-                >
+            {mounted &&
+                embedOpen &&
+                createPortal(
                     <div
-                        className="project-embed-panel"
-                        onClick={(e) => e.stopPropagation()}
+                        className="project-embed-modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Checkers & Decision Trees live demo"
+                        onClick={() => setEmbedOpen(false)}
                     >
-                        <div className="project-embed-bar">
-                            <span className="font-mono text-sm text-white/80">
-                                Checkers & Decision Trees
-                            </span>
-                            <button
-                                type="button"
-                                className="project-embed-close"
-                                onClick={() => setEmbedOpen(false)}
-                                aria-label="Close live demo"
-                            >
-                                <X size={18} />
-                            </button>
+                        <div
+                            className="project-embed-panel"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="project-embed-bar">
+                                <span className="font-mono text-sm text-white/80">
+                                    Checkers & Decision Trees
+                                </span>
+                                <button
+                                    type="button"
+                                    className="project-embed-close"
+                                    onClick={() => setEmbedOpen(false)}
+                                    aria-label="Close live demo"
+                                >
+                                    <X size={18} />
+                                </button>
+                            </div>
+                            <iframe
+                                src={CHECKERS_EMBED}
+                                title="Checkers & Decision Trees"
+                                className="project-embed-frame"
+                                allow="autoplay"
+                            />
                         </div>
-                        <iframe
-                            src={CHECKERS_EMBED}
-                            title="Checkers & Decision Trees"
-                            className="project-embed-frame"
-                            allow="autoplay"
-                        />
-                    </div>
-                </div>
-            )}
+                    </div>,
+                    document.body,
+                )}
         </SectionLayout>
     );
 }
