@@ -226,6 +226,8 @@ export default function ProjectsPage() {
                                 src={CHECKERS_EMBED}
                                 title="Checkers & Decision Trees"
                                 className="project-embed-frame"
+                                width={800}
+                                height={800}
                                 allow="autoplay"
                             />
                         </div>

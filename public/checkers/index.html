@@ -217,40 +217,47 @@ function show_infobox() {
         div.emscripten_border { border: 1px solid black; }
         div.thick_border { border: 4px solid black; }
 
-        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+        /*
+          Host page is exactly the game surface. Parent iframe is capped at 800×800,
+          so percentage sizing only scales down — never expands into letterbox gutters.
+        */
         html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #000 !important;
+            margin: 0;
+            padding: 0;
+            background: #000;
         }
 
+        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
         canvas.emscripten {
             border: 0 none !important;
             outline: none !important;
             background-color: #000;
-            width: 100% !important;
-            height: 100% !important;
+            width: 100%;
+            height: 100%;
             z-index: 5;
-            padding: 0 !important;
-            margin: 0 !important;
+            padding: 0;
+            margin: 0;
             position: absolute;
-            inset: 0;
-            image-rendering: auto;
+            top: 0;
+            left: 0;
         }
 
         body {
             font-family: arial;
             margin: 0;
             padding: 0;
-            background-color: #000 !important;
+            background-color: #000;
         }
 
         /* Hide pygbag chrome in portfolio embed */
         #pyconsole,
         #crt,
         #transfer,
-        #dlg {
+        #dlg,
+        #infobox {
             display: none !important;
         }
 
