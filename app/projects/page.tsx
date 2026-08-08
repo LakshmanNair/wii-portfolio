@@ -214,19 +214,14 @@ export default function ProjectsPage() {
                             className="project-embed-panel"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className="project-embed-bar">
-                                <span className="font-mono text-sm text-white/80">
-                                    Checkers & Decision Trees
-                                </span>
-                                <button
-                                    type="button"
-                                    className="project-embed-close"
-                                    onClick={() => setEmbedOpen(false)}
-                                    aria-label="Close live demo"
-                                >
-                                    <X size={18} />
-                                </button>
-                            </div>
+                            <button
+                                type="button"
+                                className="project-embed-close"
+                                onClick={() => setEmbedOpen(false)}
+                                aria-label="Close live demo"
+                            >
+                                <X size={18} />
+                            </button>
                             <iframe
                                 src={CHECKERS_EMBED}
                                 title="Checkers & Decision Trees"

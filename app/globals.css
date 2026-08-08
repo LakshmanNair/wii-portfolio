@@ -1353,58 +1353,54 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem;
-  background: rgba(0, 0, 0, 0.82);
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
   animation: fadeIn 200ms ease both;
 }
 
+/* Sized to the 800×800 Pygame surface — no chrome, border, or side gutters. */
 .project-embed-panel {
-  width: min(860px, 100%);
-  max-height: min(920px, 96vh);
-  display: flex;
-  flex-direction: column;
-  background: #0d0d12;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
+  --embed-size: min(800px, calc(100vw - 1.5rem), calc(100vh - 1.5rem));
+  position: relative;
+  width: var(--embed-size);
+  height: var(--embed-size);
+  background: #000;
+  border: none;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
-}
-
-.project-embed-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
+  box-shadow: none;
 }
 
 .project-embed-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 2rem;
   height: 2rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
   transition: background 150ms ease, color 150ms ease;
 }
 
 .project-embed-close:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.8);
   color: #fff;
 }
 
 .project-embed-frame {
+  display: block;
   width: 100%;
-  height: min(820px, calc(96vh - 4rem));
+  height: 100%;
   border: none;
-  background: #111;
+  background: #000;
 }
 
 @keyframes fadeIn {
