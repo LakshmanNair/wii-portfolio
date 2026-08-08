@@ -14,7 +14,7 @@ const GithubIcon = () => (
 // Served from this Next.js app's public/checkers (Vercel). Same-origin keeps
 // the Wasm loader simple; GitHub Pages can replace this once Pages is enabled
 // on LakshmanNair7/Checkers-AI (Settings → Pages → gh-pages branch).
-const CHECKERS_EMBED = '/checkers/';
+const CHECKERS_EMBED = '/checkers/index.html';
 
 type Project = {
     title: string;
