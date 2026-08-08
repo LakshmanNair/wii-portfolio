@@ -18,9 +18,8 @@ const glowColorMap: Record<string, { base: number; spread: number }> = {
 };
 
 /**
- * Card with a cursor-tracked spotlight and a hue that shifts across the
- * viewport. Pointer position comes from <PointerSpotlight> via CSS variables on
- * <html>, so the card itself holds no listeners.
+ * Spotlight wash while the pointer is ON the card; multicolour edge glow while
+ * the pointer is near OR on it. Coordinates come from <PointerSpotlight>.
  */
 export default function GlowCard({
     children,
@@ -42,3 +41,5 @@ export default function GlowCard({
         </div>
     );
 }
+
+export { GlowCard };

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const CARD_SELECTOR = '.spotlight-card, .glass-card, .project-card';
 /** Distance past the card edge where the multicolour border glow still fires. */
-const EDGE_PROXIMITY = 72;
+const EDGE_PROXIMITY = 96;
 
 /**
  * Publishes pointer coords for card effects:

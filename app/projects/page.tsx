@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import SectionLayout from '@/components/ui/section-layout';
+import ProjectMedia from '@/components/ui/project-media';
 import { Rocket, ExternalLink, Gamepad2, X } from 'lucide-react';
 import { SOCIALS } from '@/lib/profile';
 
@@ -21,71 +22,62 @@ type Project = {
     title: string;
     description: string;
     tags: string[];
-    type: string;
-    github: string;
-    demo: string;
+    github?: string;
+    demo?: string;
     color: string;
     embed?: string;
-    icon?: 'rocket' | 'gamepad';
+    image?: string;
+    video?: string;
+    poster?: string;
+    playbackRate?: number;
 };
 
-// Demo links and repos land in the next pass.
 const projects: Project[] = [
     {
         title: 'Agentic AI Web Automation Engine',
         description:
             'An autonomous agent that reads and fills complex medical forms on its own. It walks the live DOM with Playwright and reasons about each field through the Gemini API, reaching 100% submission reliability across the forms I threw at it.',
         tags: ['TypeScript', 'Playwright', 'Gemini API', 'Agents'],
-        type: 'code',
         github: SOCIALS.github,
-        demo: '',
         color: '#CE93D8',
-        icon: 'rocket',
+        video: '/projects/agentic-demo.mp4',
+        poster: '/projects/agentic-form.png',
+        image: '/projects/agentic-form.png',
+        playbackRate: 1.5,
     },
     {
         title: 'Checkers & Decision Trees',
         description:
             'CSC111 AI checkers — pick a Minimax / Alpha-Beta / Aggressor matchup and watch a live animated game in the browser (Python + Pygame compiled to WebAssembly).',
         tags: ['Python', 'Pygame', 'Minimax', 'WebAssembly'],
-        type: 'code',
         github: 'https://github.com/LakshmanNair7/Checkers-AI',
         demo: CHECKERS_EMBED,
         embed: CHECKERS_EMBED,
         color: '#EF5350',
-        icon: 'gamepad',
-    },
-    {
-        title: 'GIST — Geospatial Analytics Platform',
-        description:
-            'Designed, architected and shipped solo at Clearway. Turns large-scale JSON datasets into interactive Leaflet maps and analytics dashboards that upper management actually uses to make decisions.',
-        tags: ['React', 'TypeScript', 'Leaflet', 'Data Viz'],
-        type: 'code',
-        github: '',
-        demo: '',
-        color: '#4FC3F7',
-        icon: 'rocket',
-    },
-    {
-        title: 'Expense Management Platform',
-        description:
-            'End-to-end expense and approval system serving 585+ employees, including corporate VISA statement reconciliation. Cut roughly 15 hours of manual finance work every month.',
-        tags: ['React', 'Django', 'PostgreSQL', 'Docker'],
-        type: 'code',
-        github: '',
-        demo: '',
-        color: '#81C784',
-        icon: 'rocket',
+        image: '/projects/checkers-menu.png',
     },
     {
         title: 'AI Fitness Web App',
         description:
             'Built and deployed with the team at MyEdMaster. Next.js REST services behind a React frontend, focused on making the workout experience configurable per user.',
         tags: ['Next.js', 'React', 'REST APIs', 'Vercel'],
-        type: 'code',
-        github: '',
         demo: 'https://teamrocketaifitnessappd4.vercel.app/',
         color: '#FFB74D',
-        icon: 'rocket',
+        image: '/projects/fitness.png',
+    },
+    {
+        title: 'GIST — Geospatial Analytics Platform',
+        description:
+            'Designed, architected and shipped solo at Clearway. Turns large-scale JSON datasets into interactive Leaflet maps and analytics dashboards that upper management actually uses to make decisions.',
+        tags: ['React', 'TypeScript', 'Leaflet', 'Data Viz'],
+        color: '#4FC3F7',
+    },
+    {
+        title: 'Expense Management Platform',
+        description:
+            'End-to-end expense and approval system serving 585+ employees, including corporate VISA statement reconciliation. Cut roughly 15 hours of manual finance work every month.',
+        tags: ['React', 'Django', 'PostgreSQL', 'Docker'],
+        color: '#81C784',
     },
 ];
 
@@ -119,13 +111,21 @@ export default function ProjectsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {projects.map((project, i) => (
                     <div
-                        key={i}
+                        key={project.title}
                         className="project-card"
                         style={{ animationDelay: `${i * 100}ms`, animation: 'slideUp 500ms ease both' }}
                     >
-                        {/* Thumbnail — Checkers card opens a live Wasm embed */}
                         <div className="project-thumbnail">
-                            {project.embed ? (
+                            <ProjectMedia
+                                image={project.image}
+                                video={project.video}
+                                poster={project.poster}
+                                alt={`${project.title} preview`}
+                                color={project.color}
+                                playbackRate={project.playbackRate}
+                            />
+
+                            {project.embed && (
                                 <button
                                     type="button"
                                     className="project-embed-trigger"
@@ -133,62 +133,56 @@ export default function ProjectsPage() {
                                     aria-label={`Play ${project.title} live`}
                                 >
                                     <Gamepad2
-                                        size={40}
+                                        size={36}
                                         style={{ filter: `drop-shadow(0 0 20px ${project.color}80)` }}
                                     />
-                                    <span className="text-white/70 text-xs font-mono tracking-wider">
+                                    <span className="text-white/85 text-xs font-mono tracking-wider">
                                         PLAY LIVE DEMO
                                     </span>
-                                    <span className="text-white/35 text-[10px] font-mono">
+                                    <span className="text-white/45 text-[10px] font-mono">
                                         Python · Pygame · Wasm
                                     </span>
                                 </button>
-                            ) : (
-                                <div className="relative z-10 flex flex-col items-center gap-2">
-                                    <div
-                                        className="text-4xl"
-                                        style={{ filter: `drop-shadow(0 0 20px ${project.color}40)` }}
-                                    >
-                                        🚀
-                                    </div>
-                                    <span className="text-white/40 text-xs font-mono">
-                                        {project.demo ? 'LIVE PROJECT' : 'CASE STUDY'}
-                                    </span>
-                                </div>
                             )}
 
-                            {/* Color accent glow */}
                             <div
-                                className="absolute inset-0 opacity-20 pointer-events-none"
-                                style={{ background: `radial-gradient(circle at 50% 50%, ${project.color}, transparent 70%)` }}
+                                className="project-thumbnail-tint"
+                                style={{ background: `radial-gradient(circle at 50% 50%, ${project.color}33, transparent 70%)` }}
                             />
                         </div>
 
-                        {/* Project info */}
                         <div className="project-body">
                             <h3 className="project-title">{project.title}</h3>
                             <p className="project-desc">{project.description}</p>
 
                             <div className="flex items-center justify-between">
                                 <div className="project-tags">
-                                    {project.tags.map((tag, j) => (
-                                        <span key={j} className="project-tag">{tag}</span>
+                                    {project.tags.map((tag) => (
+                                        <span key={tag} className="project-tag">{tag}</span>
                                     ))}
                                 </div>
 
-                                {(project.github || project.demo) && (
+                                {(project.github || (project.demo && !project.embed)) && (
                                     <div className="flex gap-2 ml-3">
                                         {project.github && (
-                                            <a href={project.github} target="_blank" rel="noopener noreferrer"
+                                            <a
+                                                href={project.github}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                                 aria-label={`${project.title} source`}
-                                                className="text-white/30 hover:text-white/70 transition-colors">
+                                                className="text-white/30 hover:text-white/70 transition-colors"
+                                            >
                                                 <GithubIcon />
                                             </a>
                                         )}
-                                        {project.demo && (
-                                            <a href={project.demo} target="_blank" rel="noopener noreferrer"
+                                        {project.demo && !project.embed && (
+                                            <a
+                                                href={project.demo}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                                 aria-label={`${project.title} live demo`}
-                                                className="text-white/30 hover:text-white/70 transition-colors">
+                                                className="text-white/30 hover:text-white/70 transition-colors"
+                                            >
                                                 <ExternalLink size={16} />
                                             </a>
                                         )}

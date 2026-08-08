@@ -36,6 +36,14 @@ body {
   user-select: none;
 }
 
+/* Force the custom Wii cursor everywhere so it never reverts near text,
+   at the bottom of the viewport, or on interactive elements. */
+*,
+*::before,
+*::after {
+  cursor: url('/images/cursor.png') 0 0, auto !important;
+}
+
 /* ================================================================ */
 /* ===== CLASSIC WII MENU (faithful to index-old.html)  ===== */
 /* ================================================================ */
@@ -50,13 +58,6 @@ body {
   visibility: visible;
   background-image: url('/images/bg-pattern.png');
   background-color: lightgrey;
-  cursor: url('/images/cursor.png') 0 0, auto;
-}
-
-.wii-classic-menu a,
-.wii-classic-menu button,
-.wii-classic-menu [role='button'] {
-  cursor: url('/images/cursor.png') 0 0, auto !important;
 }
 
 .wii-classic-menu.channel-splash {
@@ -113,7 +114,6 @@ body {
   height: auto;
   margin-top: 2vh;
   position: relative;
-  cursor: url('/images/cursor.png'), auto;
 }
 
 /* Blank channels - animated spritesheet */
@@ -287,7 +287,6 @@ body {
 
 .wii-corner-button {
   transition: transform 300ms;
-  cursor: url('/images/cursor.png') 0 0, auto !important;
   display: block;
   text-decoration: none;
 }
@@ -296,11 +295,7 @@ body {
   transform: scale(1.1);
 }
 
-.wii-corner-button *,
-.wii-date-display,
-.wii-date-display * {
-  cursor: url('/images/cursor.png') 0 0, auto !important;
-}
+/* (Global cursor rule above now covers all elements — these are no longer needed.) */
 
 /* Wii-menu corner labels — Continuum-style face matching the date plate */
 .wii-corner-label {
@@ -314,12 +309,15 @@ body {
   transition: color 200ms ease;
 }
 
-/* Resume sits just under the disc (closer than the old external label) */
+/* Resume label sits inside the button disc, under the icon — same treatment
+   as Email Me. Icon art is shifted up in resume-button.png to make room. */
 .wii-wii-button .wii-corner-label {
-  top: calc(100% - 2px);
-  font-size: 16px;
-  color: #6f7378;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  top: auto;
+  bottom: 16px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #7a7e84;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .wii-wii-button:hover .wii-corner-label {
@@ -1279,11 +1277,36 @@ body {
   overflow: hidden;
 }
 
+.project-media,
+.project-media-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-media-fallback {
+  display: grid;
+  place-items: center;
+  object-fit: unset;
+}
+
+.project-thumbnail-tint {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
 .project-thumbnail::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 60%, rgba(10, 10, 10, 0.8));
+  background: linear-gradient(180deg, transparent 55%, rgba(10, 10, 10, 0.75));
+  pointer-events: none;
 }
 
 .project-body {
@@ -1322,7 +1345,8 @@ body {
 }
 
 .project-embed-trigger {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -1331,19 +1355,20 @@ body {
   gap: 0.55rem;
   width: 100%;
   height: 100%;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.28);
   border: none;
   cursor: pointer;
   color: #fff;
-  transition: transform 200ms ease, opacity 200ms ease;
+  transition: transform 200ms ease, background-color 200ms ease;
 }
 
 .project-embed-trigger:hover {
-  transform: scale(1.03);
+  background: rgba(0, 0, 0, 0.42);
+  transform: scale(1.01);
 }
 
 .project-embed-trigger:hover span:first-of-type {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .project-embed-modal {
