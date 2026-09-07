@@ -50,8 +50,8 @@ export default function ContactPage() {
             </div>
 
             <p className="contact-intro">
-                Thanks for making it to the end. If anything here resonated — a role, a collaboration, or just
-                a good conversation about building things — the fastest way to reach me is below.
+                Thanks for visiting and looking through the website. If anything here resonated or interested you, like a role, collaboration, or
+                conversation about building things, the fastest way to reach me is below.
             </p>
 
             <div className="contact-layout">
@@ -118,8 +118,7 @@ export default function ContactPage() {
                         ))}
                     </ul>
                     <p className="contact-note">
-                        Based in Toronto and open to remote work. Email is the surest way to reach me —
-                        I usually reply within a day.
+                        Email or text is the fastest way to reach me. I welcome any questions or inquiries!
                     </p>
                 </div>
             </div>

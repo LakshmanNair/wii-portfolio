@@ -7,14 +7,22 @@ import SectionLayout from '@/components/ui/section-layout';
 
 gsap.registerPlugin(ScrollTrigger);
 
+type CareerEvent = {
+    role: string;
+    company: string;
+    year: string;
+    description: string;
+    links?: { href: string; label: string }[];
+};
+
 // Newest first — the rail fills downward as you scroll back through the years.
-const careerEvents = [
+const careerEvents: CareerEvent[] = [
     {
         role: 'Graduation & First Developer Role',
         company: 'U of T → Clearway Construction Inc.',
         year: '26/27',
         description:
-            'Finished the Computer Science Specialist at the University of Toronto and started as a Junior Full Stack Systems Developer at Clearway Construction. Shipped an end-to-end expense management app for 585+ employees in React, TypeScript, Django and PostgreSQL, built GIST — a geospatial analytics platform for upper management — and cut 400–500ms of latency off core ERP pages. Also stood up a 500+ test PyTest suite in CI and led the team\'s move to agentic development workflows.',
+            'Finished the Computer Science Specialist degree at the University of Toronto and started as a Junior Full Stack Systems Developer at Clearway Construction. Within three months, I completely independently shipped an end-to-end expense management app with custom functionality for 585+ employees using React, TypeScript, Django and PostgreSQL. I also built GIST, a geospatial analytics platform for upper management, and cut 400–500ms of latency off core ERP pages. I also stood up a 500+ test PyTest suite in CI and led the team\'s move to agentic development workflows with Claude Code. Through all of this, I gained invaluable experience in full-stack development, system design, and team collaboration. Some video walkthroughs of the projects are available in the projects section!',
         links: [],
     },
     {
@@ -22,7 +30,7 @@ const careerEvents = [
         company: 'U of T · Rays Sports Network Inc.',
         year: '25/26',
         description:
-            'Deep end of the degree: neural networks, deep learning and natural language processing. Spent the summer as a Frontend Developer at Rays Sports Network building cross-platform dashboards and video players in React and Tailwind, plus 10+ reusable hooks and Selenium tests covering 80% of core flows. On the side I architected an agentic AI web automation engine — TypeScript, Playwright and the Gemini API driving real medical forms to 100% submission reliability.',
+            'Spent the summer as a Frontend Developer at Rays Sports Network building cross-platform dashboards and video players in React and Tailwind. I built a Selenium test suite covering 80% of core flows. My last year of university: neural networks, deep learning and natural language processing. On the side I architected an agentic AI web automation engine — TypeScript, Playwright and the Gemini API driving real medical forms to 100% submission reliability. Personally, my favourite side-project to date, check it out in the projects section, and I\'d be happy to discuss it further if you\'re interested!',
         links: [],
     },
     {
@@ -30,15 +38,15 @@ const careerEvents = [
         company: 'U of T · MyEdMaster LLC',
         year: '24/25',
         description:
-            'First proper machine learning courses alongside the web stack — JavaScript, React, HTML and CSS. Worked as a Software Engineer at MyEdMaster building Next.js REST backends against a React frontend, and helped develop and deploy a fitness web app.',
-        links: [{ label: 'teamrocketaifitnessappd4.vercel.app', href: 'https://teamrocketaifitnessappd4.vercel.app/' }],
+            'My first machine learning courses which taught me about different models, training, and gave me some practical experience with hands-on projects. I was also introduced to web programming with the web stack: JavaScript, React, HTML and CSS. In the second half of the year, I worked as a Software Engineer at MyEdMaster building Next.js REST backends against a React frontend, and helped develop and deploy a fitness web app for them. You can check out the beta of the app in the projects section!',
+        links: [],
     },
     {
         role: 'Data Structures, Algorithms & Systems',
         company: 'University of Toronto',
         year: '23/24',
         description:
-            'The year everything got rigorous. Data structures and algorithms, theory of computation, software design in Java, and systems programming in C — learning what the machine is actually doing underneath the abstractions.',
+            'Second year of university, I learned Java in my Software Development course which gave me a foundation in code architecture and design patterns. I also studied data structures and algorithms, which introduced me to CS theory. Additionally, I learned systems programming in C which gave me a deeper understanding of compilers and memory management.',
         links: [],
     },
     {
@@ -46,7 +54,7 @@ const careerEvents = [
         company: 'University of Toronto',
         year: '22/23',
         description:
-            'First year. Python and introductory computer science, writing my first real programs and figuring out that I liked this a great deal more than anything else I had tried.',
+            'First year. Python and introductory computer science, writing my first real programs after tinkering around in highschool not really knowing what I was doing. Checkout my first-year checkers project in the projects section!',
         links: [],
     },
 ];
@@ -122,7 +130,7 @@ export default function ExperiencePage() {
                                     <h3>{event.year}</h3>
                                 </div>
                                 <p>{event.description}</p>
-                                {event.links.length > 0 && (
+                                {event.links && event.links.length > 0 && (
                                     <p className="career-links">
                                         {event.links.map((link) => (
                                             <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">

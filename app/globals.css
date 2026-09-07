@@ -36,17 +36,65 @@ body {
   user-select: none;
 }
 
-/* Force the custom Wii cursor everywhere so it never reverts near text,
-   at the bottom of the viewport, or on interactive elements. */
-*,
-*::before,
-*::after {
-  cursor: url('/images/cursor.png') 0 0, auto !important;
+/* Wii pointer is the default surface cursor. The hotspot (7 0) sits on the
+   fingertip of the 28px art — with the old 65px art anchored at 0 0 the real
+   click point was ~17px left of where the finger visibly pointed, which made
+   small targets feel unclickable. */
+html,
+body {
+  cursor: url('/images/cursor-sm.png') 7 0, auto;
+}
+
+/* Outside the Wii menu, interactive elements keep familiar affordances so it's
+   obvious what can be clicked or typed into. */
+a,
+button,
+summary,
+select,
+label,
+[role='button'],
+input[type='submit'],
+input[type='checkbox'],
+input[type='radio'] {
+  cursor: pointer;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='date'],
+textarea {
+  cursor: text;
+}
+
+video {
+  cursor: default;
+}
+
+/* ...but the Wii menu itself keeps the hand pointer on everything, including
+   the corner buttons and date plate — that's the whole conceit of the screen. */
+.wii-classic-menu,
+.wii-classic-menu * {
+  cursor: url('/images/cursor-sm.png') 7 0, auto !important;
 }
 
 /* ================================================================ */
 /* ===== CLASSIC WII MENU (faithful to index-old.html)  ===== */
 /* ================================================================ */
+
+/* First-visit boot: menu rises out of the black intro screen */
+.wii-menu-fade-in {
+  animation: wiiMenuFadeIn 900ms ease both;
+}
+
+@keyframes wiiMenuFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .wii-classic-menu {
   width: 100vw;
@@ -347,7 +395,6 @@ body {
   transform: translate(-50%, 0);
   font-size: 40px;
   letter-spacing: -1px;
-  cursor: url('/images/cursor.png') 0 0, auto !important;
 }
 
 /* ===== Wii Menu Responsive ===== */
@@ -1058,7 +1105,10 @@ body {
   z-index: 4;
 }
 
-/* Multicolour edge highlight — on when near OR on the card */
+/* Multicolour edge highlight — on when near OR on the card.
+   The ring is painted as a padded box with the content area masked out, so the
+   highlight runs the full perimeter. The older border+mask-clip approach only
+   ever resolved along the rounded corners. */
 .spotlight-card::after,
 .glass-card::after,
 .project-card::after {
@@ -1066,21 +1116,19 @@ body {
   content: "";
   position: absolute;
   inset: calc(var(--border-size) * -1);
-  border: var(--border-size) solid transparent;
-  border-radius: calc(var(--radius, 16) * 1px);
+  padding: var(--edge-ring, 2px);
+  border-radius: calc((var(--radius, 16) * 1px) + var(--border-size));
   background-repeat: no-repeat;
-  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-  mask-clip: padding-box, border-box;
-  -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-  -webkit-mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
   background-image: radial-gradient(
-    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+    calc(var(--spotlight-size) * 0.9) calc(var(--spotlight-size) * 0.9) at
     calc(var(--mx, -9999) * 1px)
     calc(var(--my, -9999) * 1px),
-    hsl(var(--hue) 100% 55% / var(--border-spot-opacity, 1)), transparent 100%
+    hsl(var(--hue) 100% 60% / var(--border-spot-opacity, 1)), transparent 100%
   );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
   filter: brightness(1.8);
   z-index: 4;
   opacity: 0;
@@ -1120,17 +1168,15 @@ body {
   content: "";
   position: absolute;
   inset: -10px;
-  border: 10px solid transparent;
-  border-radius: calc(var(--radius, 16) * 1px);
+  padding: 10px;
+  border-radius: calc((var(--radius, 16) * 1px) + 10px);
   background-repeat: no-repeat;
-  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-  mask-clip: padding-box, border-box;
-  -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-  -webkit-mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
   background-image: radial-gradient(
-    calc(var(--spotlight-size, 200px) * 0.75) calc(var(--spotlight-size, 200px) * 0.75) at
+    calc(var(--spotlight-size, 200px) * 0.9) calc(var(--spotlight-size, 200px) * 0.9) at
     calc(var(--mx, -9999) * 1px)
     calc(var(--my, -9999) * 1px),
     hsl(var(--hue, 210) 100% 50% / 0.8), transparent 100%
@@ -1293,20 +1339,11 @@ body {
   object-fit: unset;
 }
 
-.project-thumbnail-tint {
-  position: absolute;
-  inset: 0;
-  opacity: 0.35;
-  pointer-events: none;
-  mix-blend-mode: soft-light;
-}
-
-.project-thumbnail::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(10, 10, 10, 0.75));
-  pointer-events: none;
+/* Nothing is layered over the preview — no colour tint, no gradient scrim and
+   no launch button. Video cards show their own native player chrome. */
+.project-media-player {
+  object-fit: contain;
+  background: #000;
 }
 
 .project-body {
@@ -1344,31 +1381,36 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.project-embed-trigger {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
+/* Card footer actions. The Wasm demo launches from here rather than from an
+   overlay so the preview art stays untouched. */
+.project-actions {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.28);
-  border: none;
-  cursor: pointer;
+  gap: 0.6rem;
+  margin-left: 0.75rem;
+  flex-shrink: 0;
+}
+
+.project-play-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.project-play-demo:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
   color: #fff;
-  transition: transform 200ms ease, background-color 200ms ease;
-}
-
-.project-embed-trigger:hover {
-  background: rgba(0, 0, 0, 0.42);
-  transform: scale(1.01);
-}
-
-.project-embed-trigger:hover span:first-of-type {
-  color: rgba(255, 255, 255, 0.95);
 }
 
 .project-embed-modal {

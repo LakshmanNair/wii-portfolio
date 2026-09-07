@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom';
 import SectionLayout from '@/components/ui/section-layout';
 import ProjectMedia from '@/components/ui/project-media';
 import { Rocket, ExternalLink, Gamepad2, X } from 'lucide-react';
-import { SOCIALS } from '@/lib/profile';
 
 const GithubIcon = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -29,21 +28,36 @@ type Project = {
     image?: string;
     video?: string;
     poster?: string;
-    playbackRate?: number;
 };
 
+// Grid is two-up: row 1 agentic + expenses, row 2 GIST + checkers, row 3 fitness.
 const projects: Project[] = [
     {
         title: 'Agentic AI Web Automation Engine',
         description:
-            'An autonomous agent that reads and fills complex medical forms on its own. It walks the live DOM with Playwright and reasons about each field through the Gemini API, reaching 100% submission reliability across the forms I threw at it.',
-        tags: ['TypeScript', 'Playwright', 'Gemini API', 'Agents'],
-        github: SOCIALS.github,
+            'An autonomous agent that reads and fills complex medical forms on its own. It walks the live DOM with Playwright and reasons about each field through the Gemini API, reaching 100% submission reliability across forms I tested it on.',
+        tags: ['TypeScript', 'Playwright', 'Gemini Flash API', 'Machine Learning', 'Vercel SDK'],
         color: '#CE93D8',
         video: '/projects/agentic-demo.mp4',
         poster: '/projects/agentic-form.png',
-        image: '/projects/agentic-form.png',
-        playbackRate: 1.5,
+    },
+    {
+        title: 'Expense Management Platform',
+        description:
+            'Independently engineered end-to-end expense and approval system serving 585+ employees, including corporate VISA statement reconciliation. Cut roughly 15 hours of manual finance work every month. Please note: data was swapped for privacy reasons, which prevented me from demonstrating the reconciliation tab - it automatically matches system expenses with processed monthly VISA statements. Screenrecordings may introduce some lag or artifacts.',
+        tags: ['React', 'Django', 'PostgreSQL', 'Docker', 'TypeScript'],
+        color: '#81C784',
+        video: '/projects/expenses-demo.mp4',
+        poster: '/projects/expenses-poster.jpg',
+    },
+    {
+        title: 'GIST — Geospatial Analytics Platform',
+        description:
+            'Designed and architected at Clearway. Turns large-scale JSON datasets into interactive Leaflet maps and analytics dashboards that upper management actually uses to make decisions. Please note: screenrecordings may introduce some lag or artifacts.',
+        tags: ['React', 'TypeScript', 'Data Visualization'],
+        color: '#4FC3F7',
+        video: '/projects/gist-demo.mp4',
+        poster: '/projects/gist-poster.jpg',
     },
     {
         title: 'Checkers & Decision Trees',
@@ -51,7 +65,6 @@ const projects: Project[] = [
             'CSC111 AI checkers — pick a Minimax / Alpha-Beta / Aggressor matchup and watch a live animated game in the browser (Python + Pygame compiled to WebAssembly).',
         tags: ['Python', 'Pygame', 'Minimax', 'WebAssembly'],
         github: 'https://github.com/LakshmanNair7/Checkers-AI',
-        demo: CHECKERS_EMBED,
         embed: CHECKERS_EMBED,
         color: '#EF5350',
         image: '/projects/checkers-menu.png',
@@ -64,20 +77,6 @@ const projects: Project[] = [
         demo: 'https://teamrocketaifitnessappd4.vercel.app/',
         color: '#FFB74D',
         image: '/projects/fitness.png',
-    },
-    {
-        title: 'GIST — Geospatial Analytics Platform',
-        description:
-            'Designed, architected and shipped solo at Clearway. Turns large-scale JSON datasets into interactive Leaflet maps and analytics dashboards that upper management actually uses to make decisions.',
-        tags: ['React', 'TypeScript', 'Leaflet', 'Data Viz'],
-        color: '#4FC3F7',
-    },
-    {
-        title: 'Expense Management Platform',
-        description:
-            'End-to-end expense and approval system serving 585+ employees, including corporate VISA statement reconciliation. Cut roughly 15 hours of manual finance work every month.',
-        tags: ['React', 'Django', 'PostgreSQL', 'Docker'],
-        color: '#81C784',
     },
 ];
 
@@ -122,32 +121,6 @@ export default function ProjectsPage() {
                                 poster={project.poster}
                                 alt={`${project.title} preview`}
                                 color={project.color}
-                                playbackRate={project.playbackRate}
-                            />
-
-                            {project.embed && (
-                                <button
-                                    type="button"
-                                    className="project-embed-trigger"
-                                    onClick={() => setEmbedOpen(true)}
-                                    aria-label={`Play ${project.title} live`}
-                                >
-                                    <Gamepad2
-                                        size={36}
-                                        style={{ filter: `drop-shadow(0 0 20px ${project.color}80)` }}
-                                    />
-                                    <span className="text-white/85 text-xs font-mono tracking-wider">
-                                        PLAY LIVE DEMO
-                                    </span>
-                                    <span className="text-white/45 text-[10px] font-mono">
-                                        Python · Pygame · Wasm
-                                    </span>
-                                </button>
-                            )}
-
-                            <div
-                                className="project-thumbnail-tint"
-                                style={{ background: `radial-gradient(circle at 50% 50%, ${project.color}33, transparent 70%)` }}
                             />
                         </div>
 
@@ -162,8 +135,18 @@ export default function ProjectsPage() {
                                     ))}
                                 </div>
 
-                                {(project.github || (project.demo && !project.embed)) && (
-                                    <div className="flex gap-2 ml-3">
+                                {(project.github || project.demo || project.embed) && (
+                                    <div className="project-actions">
+                                        {project.embed && (
+                                            <button
+                                                type="button"
+                                                className="project-play-demo"
+                                                onClick={() => setEmbedOpen(true)}
+                                            >
+                                                <Gamepad2 size={14} />
+                                                Play live demo
+                                            </button>
+                                        )}
                                         {project.github && (
                                             <a
                                                 href={project.github}
@@ -175,7 +158,7 @@ export default function ProjectsPage() {
                                                 <GithubIcon />
                                             </a>
                                         )}
-                                        {project.demo && !project.embed && (
+                                        {project.demo && (
                                             <a
                                                 href={project.demo}
                                                 target="_blank"

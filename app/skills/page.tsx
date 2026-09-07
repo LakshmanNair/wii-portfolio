@@ -11,7 +11,7 @@ const skillCategories = [
     },
     {
         title: 'Frameworks & Technologies',
-        skills: ['React', 'Next.js', 'Node.js', 'Django', 'Vite', 'Tailwind CSS', 'REST APIs', 'React Query', 'Leaflet'],
+        skills: ['React', 'Next.js', 'Node.js', 'Django', 'Vite', 'Tailwind CSS', 'REST APIs', 'React Query'],
     },
     {
         title: 'Data & Infrastructure',
@@ -19,11 +19,11 @@ const skillCategories = [
     },
     {
         title: 'Testing & Automation',
-        skills: ['PyTest', 'Playwright', 'Selenium', 'Agentic workflows', 'Agile', 'Code review'],
+        skills: ['PyTest', 'Playwright', 'Selenium', 'Postman', 'CI test integration', 'Claude Code'],
     },
     {
         title: 'Machine Learning',
-        skills: ['Neural networks', 'Deep learning', 'NLP', 'RAG', 'scikit-learn', 'Gemini API', 'PyTorch'],
+        skills: ['Neural networks', 'Deep learning', 'NLP', 'RAG', 'scikit-learn', 'Gemini Flash API', 'PyTorch'],
     },
 ];
 

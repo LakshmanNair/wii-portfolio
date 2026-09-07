@@ -23,7 +23,7 @@ const education = [
         dates: 'September 2020 — May 2022',
         location: 'Oakville, Ontario',
         highlights: [
-            'Activities: Oakhacks member, DECA executive, CSMC participant, Euclid math contest participant, Debate team, Chess club, Soccer team, Global Awareness for Primary Education club',
+            'Extracurriculars: Oakhacks member, DECA executive, CSMC participant, Euclid math contest participant, Debate team, Chess club, Soccer team, Global Awareness for Primary Education club',
         ],
     },
     {
@@ -32,7 +32,7 @@ const education = [
         dates: 'September 2018 — June 2020',
         location: 'Oakville, Ontario',
         highlights: [
-            'Activities: Oakhacks member, DECA, Debate team, Chess club, Soccer team, Global Awareness for Primary Education club',
+            'Extracurriculars: Oakhacks member, DECA, Debate team, Chess club, Soccer team, Global Awareness for Primary Education club',
         ],
     },
 ];
