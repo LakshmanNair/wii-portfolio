@@ -54,7 +54,7 @@ const careerEvents: CareerEvent[] = [
         company: 'University of Toronto',
         year: '22/23',
         description:
-            'First year. Python and introductory computer science, writing my first real programs after tinkering around in highschool not really knowing what I was doing. Checkout my first-year checkers project in the projects section!',
+            'First year. Python and introductory computer science, writing my first real programs after tinkering around in high school not really knowing what I was doing. Check out my first-year checkers project in the projects section!',
         links: [],
     },
 ];

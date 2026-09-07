@@ -44,7 +44,7 @@ const projects: Project[] = [
     {
         title: 'Expense Management Platform',
         description:
-            'Independently engineered end-to-end expense and approval system serving 585+ employees, including corporate VISA statement reconciliation. Cut roughly 15 hours of manual finance work every month. Please note: data was swapped for privacy reasons, which prevented me from demonstrating the reconciliation tab - it automatically matches system expenses with processed monthly VISA statements. Screenrecordings may introduce some lag or artifacts.',
+            'Independently engineered end-to-end expense and approval system serving 585+ employees, including corporate VISA statement reconciliation. Cut roughly 15 hours of manual finance work every month. Please note: data was swapped for privacy reasons, which prevented me from demonstrating the reconciliation tab - it automatically matches system expenses with processed monthly VISA statements. Screen recordings may introduce some lag or artifacts.',
         tags: ['React', 'Django', 'PostgreSQL', 'Docker', 'TypeScript'],
         color: '#81C784',
         video: '/projects/expenses-demo.mp4',
@@ -53,7 +53,7 @@ const projects: Project[] = [
     {
         title: 'GIST — Geospatial Analytics Platform',
         description:
-            'Designed and architected at Clearway. Turns large-scale JSON datasets into interactive Leaflet maps and analytics dashboards that upper management actually uses to make decisions. Please note: screenrecordings may introduce some lag or artifacts.',
+            'Designed and architected at Clearway. Turns large-scale JSON datasets into interactive Leaflet maps and analytics dashboards that upper management actually uses to make decisions. Please note: screen recordings may introduce some lag or artifacts.',
         tags: ['React', 'TypeScript', 'Data Visualization'],
         color: '#4FC3F7',
         video: '/projects/gist-demo.mp4',

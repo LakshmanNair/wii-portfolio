@@ -84,7 +84,7 @@ export default function AboutPage() {
                         The idea was to revamp my old website and I thought, now that I have some real frontend skill, I could 
                         really take some liberty with the interface and have some fun with it. I decided on emulating a well-known UI, but with a twist, 
                         and landed on one of my childhood favourites, the Wii menu.
-                        Hopefully you enjoy the design, interaction, little animation details.
+                        Hopefully you enjoy the design, interaction, and little animation details.
                     </p>
                 </div>
             </div>
