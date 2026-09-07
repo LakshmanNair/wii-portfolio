@@ -1346,6 +1346,14 @@ video {
   background: #000;
 }
 
+/* The demo files carry no audio stream at all; drop the volume affordances so
+   the player doesn't imply there's sound to turn on. */
+.project-media-player::-webkit-media-controls-mute-button,
+.project-media-player::-webkit-media-controls-volume-slider,
+.project-media-player::-webkit-media-controls-volume-control-container {
+  display: none !important;
+}
+
 .project-body {
   padding: 1.5rem;
 }
