@@ -31,22 +31,63 @@ body {
   color: #fff;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Wii pointer is the default surface cursor. The hotspot (9 1) sits on the
+   fingertip of the 36px art — with the original 65px art anchored at 0 0 the
+   real click point was well left of where the finger visibly pointed, which
+   made small targets feel unclickable. */
+html,
+body {
+  cursor: url('/images/cursor-sm.png') 9 1, auto;
+}
+
+/* Chrome and decoration aren't selectable — dragging across a channel tile or
+   a nav arrow should never leave a blue smear. */
+html,
+body {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
 }
 
-/* Wii pointer is the default surface cursor. The hotspot (7 0) sits on the
-   fingertip of the 28px art — with the old 65px art anchored at 0 0 the real
-   click point was ~17px left of where the finger visibly pointed, which made
-   small targets feel unclickable. */
-html,
-body {
-  cursor: url('/images/cursor-sm.png') 7 0, auto;
+/* Body copy is. Readers get the familiar I-beam and can highlight, copy and
+   quote anything on the section pages. */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+dd,
+dt,
+blockquote,
+code,
+pre,
+figcaption,
+.about-text,
+.hero-bio,
+.contact-intro,
+.contact-note,
+.project-desc,
+.skill-badge,
+.project-tag {
+  cursor: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+}
+
+::selection {
+  background: var(--accent, #4fc3f7);
+  color: #08080a;
 }
 
 /* Outside the Wii menu, interactive elements keep familiar affordances so it's
-   obvious what can be clicked or typed into. */
+   obvious what can be clicked or typed into. Headings and text nested inside a
+   control follow the control, not the copy rules above. */
 a,
 button,
 summary,
@@ -55,8 +96,18 @@ label,
 [role='button'],
 input[type='submit'],
 input[type='checkbox'],
-input[type='radio'] {
+input[type='radio'],
+a :is(p, h1, h2, h3, h4, h5, h6, li, span),
+button :is(p, h1, h2, h3, h4, h5, h6, li, span),
+[role='button'] :is(p, h1, h2, h3, h4, h5, h6, li, span) {
   cursor: pointer;
+}
+
+a :is(p, h1, h2, h3, h4, h5, h6, li, span),
+button :is(p, h1, h2, h3, h4, h5, h6, li, span),
+[role='button'] :is(p, h1, h2, h3, h4, h5, h6, li, span) {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 input[type='text'],
@@ -65,6 +116,8 @@ input[type='tel'],
 input[type='date'],
 textarea {
   cursor: text;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 video {
@@ -75,7 +128,9 @@ video {
    the corner buttons and date plate — that's the whole conceit of the screen. */
 .wii-classic-menu,
 .wii-classic-menu * {
-  cursor: url('/images/cursor-sm.png') 7 0, auto !important;
+  cursor: url('/images/cursor-sm.png') 9 1, auto !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
 }
 
 /* ================================================================ */
@@ -1185,15 +1240,28 @@ video {
 
 /* Skills cards need real breathing room — the border glow and outer bleed
    read as one smear when the cards sit close together. */
+/* Two columns: each category is one short row of pills, so full-width cards
+   left most of the card empty and pushed the page into a scroll. The last card
+   spans both tracks when it would otherwise sit alone. */
 .skills-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 2.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.skills-stack > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px) {
+  .skills-stack {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Skills-specific glow card */
 .glow-card-skills {
-  padding: 2.4rem 2.5rem;
+  padding: 1.6rem 1.8rem;
 }
 
 .glow-card-skills h3 {
@@ -1606,13 +1674,34 @@ video {
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
 }
 
+/* Labels acting as a card's heading need to read as one. Page-level labels
+   stay dim, since the section title beside them already carries the weight. */
+.glass-card > .mono-label,
+.spotlight-card > .mono-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  color: color-mix(in srgb, var(--accent, #4fc3f7) 70%, #fff);
+  margin-bottom: 0.85rem;
+}
+
+.glass-card > .mono-label::after,
+.spotlight-card > .mono-label::after {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent, #4fc3f7) 35%, transparent),
+    transparent
+  );
+}
+
 .section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
-/* Two wide columns keep the four About cards to two short rows */
+/* Two cards on the top row, then a full-width card underneath so the third
+   one fills the space instead of leaving a gap on its right. */
 .about-grid {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
@@ -1620,6 +1709,10 @@ video {
 
 .about-grid .glass-card {
   padding: 1.4rem 1.6rem;
+}
+
+.about-grid .glass-card:last-child {
+  grid-column: 1 / -1;
 }
 
 @media (max-width: 720px) {
