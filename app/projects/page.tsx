@@ -44,7 +44,7 @@ const projects: Project[] = [
     {
         title: 'Expense Management Platform',
         description:
-            'Independently engineered end-to-end expense and approval system serving ~600 employees, including corporate VISA statement reconciliation. **Please note**: data was swapped for privacy reasons, which prevented me from demonstrating the reconciliation tab - it automatically matches system expenses with processed monthly VISA statements.',
+            'Independently engineered end-to-end expense and approval system serving ~600 employees, including corporate VISA statement reconciliation. Please note: data was swapped for privacy reasons, which prevented me from demonstrating the reconciliation tab - it automatically matches system expenses with processed monthly VISA statements.',
         tags: ['React', 'Django', 'PostgreSQL', 'Docker', 'TypeScript'],
         color: '#81C784',
         video: '/projects/expenses-demo.mp4',

@@ -944,7 +944,7 @@ video {
 
 .career-section {
   position: relative;
-  padding: 60px 0 100px;
+  padding: 0 0 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -957,25 +957,11 @@ video {
   margin: 0 auto;
 }
 
-.career-heading {
-  font-family: var(--font-mono);
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  margin-bottom: 1rem;
-}
-
-.career-heading span {
-  color: #aa42ff;
-}
-
 .career-info {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 50px;
+  padding-top: 24px;
   /* Room for the rail, which runs down the right edge beside the years */
   padding-right: 44px;
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Briefcase } from 'lucide-react';
 import SectionLayout from '@/components/ui/section-layout';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -105,9 +106,10 @@ export default function ExperiencePage() {
         <SectionLayout title="Experience" subtitle="My career & experience" accentColor="#CE93D8">
             <section className="career-section" ref={sectionRef}>
                 <div className="career-container">
-                    <h2 className="career-heading">
-                        My career <span>&amp;</span><br />experience
-                    </h2>
+                    <div className="mono-label">
+                        <Briefcase size={14} />
+                        Career Timeline
+                    </div>
 
                     <div className="career-info">
                         {/* The vertical progress line */}
