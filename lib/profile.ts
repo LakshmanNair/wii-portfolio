@@ -6,7 +6,7 @@ export const CONTACT_EMAIL = 'lakshmannair7@gmail.com';
 export const PHONE = '647-907-5223';
 export const LOCATION = 'Toronto, Ontario';
 
-export const RESUME_PATH = '/Lakshman Nair 26-27.pdf';
+export const RESUME_PATH = '/Lakshman-Nair-Resume.pdf';
 
 export const SOCIALS = {
     github: 'https://github.com/LakshmanNair',
