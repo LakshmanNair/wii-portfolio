@@ -18,11 +18,11 @@ type CareerEvent = {
 // Newest first — the rail fills downward as you scroll back through the years.
 const careerEvents: CareerEvent[] = [
     {
-        role: 'Graduation & First Developer Role',
+        role: 'Developer Role',
         company: 'U of T → Clearway Construction Inc.',
         year: '26/27',
         description:
-            'Finished the Computer Science Specialist degree at the University of Toronto and started as a Junior Full Stack Systems Developer at Clearway Construction. Within three months, I completely independently shipped an end-to-end expense management app with custom functionality for 585+ employees using React, TypeScript, Django and PostgreSQL. I also built GIST, a geospatial analytics platform for upper management, and cut 400–500ms of latency off core ERP pages. I also stood up a 500+ test PyTest suite in CI and led the team\'s move to agentic development workflows with Claude Code. Through all of this, I gained invaluable experience in full-stack development, system design, and team collaboration. Some video walkthroughs of the projects are available in the projects section!',
+            'I graduated from University of Toronto and started as a Junior Full Stack Systems Developer at Clearway Construction. Within three months, I completely independently shipped an end-to-end expense management app with custom functionality for ~600 employees using React, TypeScript, Django and PostgreSQL. I also built GIST, a geospatial analytics platform for upper management, and cut 400–500ms of latency off core ERP pages.',
         links: [],
     },
     {
@@ -30,7 +30,7 @@ const careerEvents: CareerEvent[] = [
         company: 'U of T · Rays Sports Network Inc.',
         year: '25/26',
         description:
-            'Spent the summer as a Frontend Developer at Rays Sports Network building cross-platform dashboards and video players in React and Tailwind. I built a Selenium test suite covering 80% of core flows. My last year of university: neural networks, deep learning and natural language processing. On the side I architected an agentic AI web automation engine — TypeScript, Playwright and the Gemini API driving real medical forms to 100% submission reliability. Personally, my favourite side-project to date, check it out in the projects section, and I\'d be happy to discuss it further if you\'re interested!',
+            'Spent the Summer as a Frontend Developer at Rays Sports Network building cross-platform dashboards and UIs. My last year of university: neural networks, deep learning and natural language processing. In my free time, I architected an agentic AI web automation engine using TypeScript, Playwright and the Gemini API driving real medical forms to 100% submission reliability. I\'d be happy to discuss it further if you\'re interested!',
         links: [],
     },
     {
@@ -38,7 +38,7 @@ const careerEvents: CareerEvent[] = [
         company: 'U of T · MyEdMaster LLC',
         year: '24/25',
         description:
-            'My first machine learning courses which taught me about different models, training, and gave me some practical experience with hands-on projects. I was also introduced to web programming with the web stack: JavaScript, React, HTML and CSS. In the second half of the year, I worked as a Software Engineer at MyEdMaster building Next.js REST backends against a React frontend, and helped develop and deploy a fitness web app for them. You can check out the beta of the app in the projects section!',
+            'My first machine learning courses on models, training, and practical applications. I was also introduced to web programming with the web stack: JavaScript, React, HTML and CSS. In the second half of the year, I worked as a Software Engineer at MyEdMaster building Next.js REST backends against a React frontend, and helped develop and deploy a fitness web app for them.',
         links: [],
     },
     {

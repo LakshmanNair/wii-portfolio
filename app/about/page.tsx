@@ -30,9 +30,9 @@ export default function AboutPage() {
                 <p className="hero-role">{ROLE_LINE}</p>
 
                 <p className="hero-bio">
-                    Hey, I&apos;m a Full-Stack Systems Developer and Computer Science Specialist graduate from the University of Toronto. 
+                    I&apos;m a Full-Stack Systems Developer and Computer Science Specialist graduate from the University of Toronto. 
                     I have expertise building production-grade ERP features and data visualization
-                    engines that hundreds of people use daily. I am interested in machine learning, AI-workflows and building user-facing applications.
+                    engines that hundreds of people use daily.
                     Please explore, take a look at my projects, and reach out if you&apos;d like to chat!
                 </p>
 
@@ -60,9 +60,8 @@ export default function AboutPage() {
                 <div className="glass-card">
                     <div className="mono-label">What I Build</div>
                     <p className="about-text">
-                        Full-stack applications, currently, I use React and TypeScript on the front, Python and Django or Node behind it.
-                        As a systems developer, I care about the boring parts: cache behaviour, query counts, test coverage. I strive to
-                        learn new system design patterns to improve application reliability, performance and scalability.
+                        Full-stack applications, primarily using React and TypeScript on the front, Django and Node behind it.
+                        I strive to learn new system design patterns to improve application reliability, performance and scalability.
                     </p>
                 </div>
 
@@ -72,8 +71,6 @@ export default function AboutPage() {
                         Retrieval-augmented generation for real businesses is the thing I keep coming back to. There&apos;s
                         a huge gap between a chatbot demo and a system that answers questions correctly over a
                         company&apos;s own messy documents, and closing that gap is a genuinely interesting problem.
-                        I also enjoy employing different strategies to drive coding efficiency with AI agents. Using Claude Code, 
-                        Cursor, Codex plugins and different MCPs is exciting during the current age of AI agent development.
                     </p>
                 </div>
 
@@ -81,9 +78,7 @@ export default function AboutPage() {
                     <div className="mono-label">This Website</div>
                     <p className="about-text">
                         I wanted to set some time aside to make a creative side project and code for fun.
-                        The idea was to revamp my old website and I thought, now that I have some real frontend skill, I could 
-                        really take some liberty with the interface and have some fun with it. I decided on emulating a well-known UI, but with a twist, 
-                        and landed on one of my childhood favourites, the Wii menu.
+                        The idea was to revamp my old website by putting a spin on a childhood favourite, the Wii menu.
                         Hopefully you enjoy the design, interaction, and little animation details.
                     </p>
                 </div>
