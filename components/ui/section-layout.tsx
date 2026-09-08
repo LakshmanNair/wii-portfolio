@@ -49,7 +49,7 @@ export default function SectionLayout({ title, subtitle, accentColor = '#4FC3F7'
             <header className="section-header">
                 <button onClick={handleBack} className="back-button" aria-label="Back to menu">
                     <ArrowLeft size={18} />
-                    <span>Wii Menu</span>
+                    <span>Menu</span>
                 </button>
                 <div className="section-title-area">
                     <h1 className="section-title" style={{ color: accentColor }}>{title}</h1>

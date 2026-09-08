@@ -102,7 +102,7 @@ export default function ExperiencePage() {
     }, []);
 
     return (
-        <SectionLayout title="Experience" subtitle="My career & experience" accentColor="#CE93D8">
+        <SectionLayout title="Experience" subtitle="Timeline" accentColor="#CE93D8">
             <section className="career-section" ref={sectionRef}>
                 <div className="career-container">
                     <h2 className="career-heading">
