@@ -1311,6 +1311,35 @@ video {
   transform: translateX(-4px);
 }
 
+.edu-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Programs after the first are separated by a rule so the shared card still
+   reads as two distinct stints. */
+.edu-program + .edu-program {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.edu-program-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.9rem 0 0.75rem;
+}
+
+.edu-program + .edu-program .edu-program-head {
+  margin-top: 0;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
