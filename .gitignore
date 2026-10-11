@@ -7,3 +7,12 @@ next-env.d.ts
 .DS_Store
 .env*
 .vscode/
+
+# Leftovers from the original Wii.JS static site
+/.gitattributes
+/CNAME
+/LICENSE
+/assets/
+/index-old.html
+/index.html
+/views/
