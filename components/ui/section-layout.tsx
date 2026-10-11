@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useWiiSfx } from '../wii/sfx-provider';
 import { ArrowLeft } from 'lucide-react';
@@ -23,6 +23,10 @@ export default function SectionLayout({ title, subtitle, accentColor = '#4FC3F7'
     const router = useRouter();
     const pathname = usePathname();
     const { playBack } = useWiiSfx();
+
+    useEffect(() => {
+        router.prefetch('/');
+    }, [router]);
 
     const handleBack = () => {
         playBack();

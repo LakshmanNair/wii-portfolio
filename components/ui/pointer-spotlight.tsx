@@ -18,6 +18,10 @@ const EDGE_PROXIMITY = 96;
  */
 export default function PointerSpotlight() {
     useEffect(() => {
+        // Without hover the effect never shows, but measuring every card on each
+        // scroll frame still costs layout work that delays taps.
+        if (!window.matchMedia('(hover: hover)').matches) return;
+
         const root = document.documentElement;
         let frame = 0;
         let x = -9999;

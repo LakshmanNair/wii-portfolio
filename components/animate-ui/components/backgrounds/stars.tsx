@@ -29,10 +29,12 @@ type StarLayerProps = HTMLMotionProps<'div'> & {
     starColor: string;
 };
 
-function generateStars(count: number, starColor: string) {
+const FIELD_SPAN = 4000;
+
+function generateStars(count: number, starColor: string, xMin = -2000, xSpan = FIELD_SPAN) {
     const shadows: string[] = [];
     for (let i = 0; i < count; i++) {
-        const x = Math.floor(Math.random() * 4000) - 2000;
+        const x = Math.floor(Math.random() * xSpan) + xMin;
         const y = Math.floor(Math.random() * 4000) - 2000;
         shadows.push(`${x}px ${y}px ${starColor}`);
     }
@@ -50,7 +52,16 @@ function StarLayer({
     const [boxShadow, setBoxShadow] = React.useState('');
 
     React.useEffect(() => {
-        setBoxShadow(generateStars(count, starColor));
+        // Phones only need the field to cover the screen. The upstream ±2000px
+        // spread rasterises layers many times the viewport, which is what made
+        // scrolling and taps sluggish; density is kept by scaling the count.
+        if (window.matchMedia('(pointer: coarse)').matches) {
+            const span = Math.max(window.innerWidth, window.innerHeight) + 100;
+            const scaled = Math.round((count * span) / FIELD_SPAN);
+            setBoxShadow(generateStars(scaled, starColor, -50, span));
+        } else {
+            setBoxShadow(generateStars(count, starColor));
+        }
     }, [count, starColor]);
 
     return (
@@ -101,6 +112,9 @@ function StarsBackground({
     // rather than an onMouseMove prop, so the layer still reacts while sitting
     // behind the page content.
     React.useEffect(() => {
+        // On touch, the "pointer" is a scrolling finger; parallax would just jolt.
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+
         const handlePointerMove = (e: PointerEvent) => {
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;

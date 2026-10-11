@@ -15,6 +15,9 @@ gsap.registerPlugin(ScrollTrigger);
 export default function SmoothScroll() {
     useEffect(() => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        // Lenis leaves touch scrolling native anyway; skipping it on touch
+        // devices just drops a per-frame ticker.
+        if (window.matchMedia('(pointer: coarse)').matches) return;
 
         const lenis = new Lenis({
             duration: 1.1,

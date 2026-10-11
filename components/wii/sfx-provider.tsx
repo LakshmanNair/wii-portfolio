@@ -29,9 +29,11 @@ export function SfxProvider({ children }: { children: React.ReactNode }) {
     const backRef = useRef<HTMLAudioElement | null>(null);
     const startupRef = useRef<HTMLAudioElement | null>(null);
     const bgMusicRef = useRef<HTMLAudioElement | null>(null);
+    const canHoverRef = useRef(true);
     const [isMuted, setIsMuted] = useState(false);
 
     useEffect(() => {
+        canHoverRef.current = window.matchMedia('(hover: hover)').matches;
         hoverRef.current = new Audio('/audio/button-hover.mp3');
         selectRef.current = new Audio('/audio/button-select.mp3');
         zipRef.current = new Audio('/audio/zip.mp3');
@@ -47,7 +49,11 @@ export function SfxProvider({ children }: { children: React.ReactNode }) {
         ref.current.play().catch(() => { });
     }, [isMuted]);
 
-    const playHover = useCallback(() => play(hoverRef), [play]);
+    // Touch screens fire an emulated mouseenter on every tap, which would stack
+    // the hover chirp on top of the select sound.
+    const playHover = useCallback(() => {
+        if (canHoverRef.current) play(hoverRef);
+    }, [play]);
     const playSelect = useCallback(() => play(selectRef), [play]);
     const playZip = useCallback(() => { play(zipRef); play(selectRef); }, [play]);
     const playBack = useCallback(() => play(backRef), [play]);

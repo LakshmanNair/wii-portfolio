@@ -82,9 +82,6 @@ const projects: Project[] = [
 
 export default function ProjectsPage() {
     const [embedOpen, setEmbedOpen] = useState(false);
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => setMounted(true), []);
 
     useEffect(() => {
         if (!embedOpen) return;
@@ -128,7 +125,7 @@ export default function ProjectsPage() {
                             <h3 className="project-title">{project.title}</h3>
                             <p className="project-desc">{project.description}</p>
 
-                            <div className="flex items-center justify-between">
+                            <div className="project-footer">
                                 <div className="project-tags">
                                     {project.tags.map((tag) => (
                                         <span key={tag} className="project-tag">{tag}</span>
@@ -153,7 +150,7 @@ export default function ProjectsPage() {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 aria-label={`${project.title} source`}
-                                                className="text-white/30 hover:text-white/70 transition-colors"
+                                                className="project-icon-link"
                                             >
                                                 <GithubIcon />
                                             </a>
@@ -164,7 +161,7 @@ export default function ProjectsPage() {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 aria-label={`${project.title} live demo`}
-                                                className="text-white/30 hover:text-white/70 transition-colors"
+                                                className="project-icon-link"
                                             >
                                                 <ExternalLink size={16} />
                                             </a>
@@ -177,8 +174,7 @@ export default function ProjectsPage() {
                 ))}
             </div>
 
-            {mounted &&
-                embedOpen &&
+            {embedOpen &&
                 createPortal(
                     <div
                         className="project-embed-modal"

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useSyncExternalStore } from 'react';
+import React, { useEffect, useState, useSyncExternalStore } from 'react';
 import { useWiiSfx } from './sfx-provider';
 import { useRouter } from 'next/navigation';
 import ChannelPreview from './channel-preview';
@@ -9,6 +9,9 @@ import { CONTACT_EMAIL, RESUME_PATH } from '@/lib/profile';
 
 const COLUMNS = 4;
 const ROWS = 3;
+// The menu fades to black 400ms into the zoom, so navigating any later just
+// holds a black screen.
+const ZOOM_NAV_DELAY = 420;
 
 // Channels fill the grid left-to-right, top-to-bottom, the way the real Wii
 // menu does. The DOM is column-major, so each column reads its own slots.
@@ -37,6 +40,10 @@ export default function ChannelGrid() {
     const [zoomOrigin, setZoomOrigin] = useState('50% 50%');
     const dateStr = useSyncExternalStore(subscribeToNothing, getLocalDate, () => '');
 
+    useEffect(() => {
+        sections.forEach((s) => router.prefetch(s.route));
+    }, [router]);
+
     const handleChannelClick = (section: Section | null, e: React.MouseEvent) => {
         if (!section || zooming) return;
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -48,7 +55,7 @@ export default function ChannelGrid() {
 
         setTimeout(() => {
             router.push(section.route);
-        }, 700);
+        }, ZOOM_NAV_DELAY);
     };
 
     return (
@@ -66,6 +73,9 @@ export default function ChannelGrid() {
                                     <div
                                         key={section?.id ?? `blank-${colIdx}-${rowIdx}`}
                                         className={`wii-channel-icon ${section ? 'occupied' : 'blank'}`}
+                                        // Phones flatten the columns into one row-major grid.
+                                        data-slot={rowIdx * COLUMNS + colIdx}
+                                        style={{ order: rowIdx * COLUMNS + colIdx }}
                                         onMouseEnter={() => section && playHover()}
                                         onClick={(e) => handleChannelClick(section, e)}
                                     >

@@ -22,6 +22,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* No double-tap-to-zoom wait on taps; elements supply their own :active states. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -154,6 +157,9 @@ video {
 .wii-classic-menu {
   width: 100vw;
   height: 100vh;
+  /* Mobile browsers count their own toolbars in vh, which pushed the bottom bar
+     off-screen. */
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   transition: transform 900ms cubic-bezier(0.4, 0, 0.2, 1), opacity 400ms ease, background-color 900ms, visibility 900ms;
@@ -278,9 +284,19 @@ video {
   pointer-events: none;
 }
 
-.wii-channel-icon.occupied:hover .wii-channel-hover {
+/* Gated on real hover: a tap would otherwise leave the overlay stuck on the
+   tile after navigating back. Touch gets the same glow while pressed. */
+@media (hover: hover) {
+  .wii-channel-icon.occupied:hover .wii-channel-hover {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.wii-channel-icon.occupied:active .wii-channel-hover {
   opacity: 1;
   transform: scale(1.02);
+  transition-duration: 80ms;
 }
 
 /* Hide hover effect during splash zoom */
@@ -312,8 +328,9 @@ video {
   background-image: url('/images/bottom-title-blank.png');
   width: 1200px;
   height: 220px;
-  margin-left: auto;
-  margin-right: auto;
+  /* Auto margins stop centring once the plate is wider than the window. */
+  left: 50%;
+  transform: translateX(-50%);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -394,8 +411,15 @@ video {
   text-decoration: none;
 }
 
-.wii-corner-button:hover {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .wii-corner-button:hover {
+    transform: scale(1.1);
+  }
+}
+
+.wii-corner-button:active {
+  transform: scale(0.94);
+  transition-duration: 80ms;
 }
 
 /* (Global cursor rule above now covers all elements — these are no longer needed.) */
@@ -483,7 +507,7 @@ video {
 
   .wii-bottom-title {
     transform-origin: top;
-    transform: scale(0.65);
+    transform: translateX(-50%) scale(0.65);
   }
 
   .wii-date-display {
@@ -523,6 +547,127 @@ video {
 @media only screen and (max-height: 47vw) {
   .wii-channel-icon {
     width: min(40vh, 439px, 100%);
+  }
+}
+
+/* ===== Wii Menu: portrait phones =====
+   Four columns of 70px tiles are unreadable, so the columns flatten into a
+   two-wide row-major grid (tiles carry their slot in `order`). Only the first
+   two blanks stay, enough to keep the "empty channel" look. The height-based
+   rules above also match phones, so everything they touch is reset here. */
+@media only screen and (max-width: 640px) and (orientation: portrait) {
+  .wii-classic-top {
+    padding: 1.5rem 14px 0 !important;
+    transform: none;
+  }
+
+  .wii-channels {
+    height: auto;
+    transform: none;
+  }
+
+  .wii-channels-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    height: auto;
+  }
+
+  .wii-col {
+    display: contents;
+  }
+
+  .wii-channel-icon {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .wii-channel-icon.blank:not([data-slot='6']):not([data-slot='7']) {
+    display: none;
+  }
+
+  .wii-classic-bottom {
+    height: 156px;
+    background-image: url('/images/bottom-bg.png');
+    background-size: auto 100%;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Wider than the screen so the plate's dip spans the middle and its slopes
+     curve up into the corners, as on the full-size bar. */
+  .wii-bottom-title {
+    width: 130%;
+    height: 100%;
+    left: 0;
+    margin-left: -15%;
+    transform: none;
+    background-size: 100% auto;
+    background-position: top center;
+  }
+
+  .wii-bottom-title-text {
+    top: 5px;
+    font-size: 26px;
+    line-height: 28px;
+  }
+
+  .wii-left-button-container,
+  .wii-right-button-container {
+    transform: none;
+  }
+
+  .wii-left-button,
+  .wii-right-button {
+    bottom: 24px;
+    width: 118px;
+    height: 86px;
+  }
+
+  .wii-wii-button,
+  .wii-mail-button {
+    width: 72px;
+    height: 76px;
+    bottom: 30px;
+  }
+
+  .wii-wii-button {
+    left: 36px;
+  }
+
+  .wii-mail-button {
+    right: 36px;
+  }
+
+  .wii-wii-button .wii-corner-label,
+  .wii-mail-button .wii-corner-label {
+    font-size: 9px;
+    bottom: 10px;
+  }
+
+  .wii-date-display {
+    font-size: 24px;
+    bottom: 22px;
+  }
+}
+
+/* Short phones (SE-sized, or any phone with Safari's toolbars showing) can't
+   fit a fourth row above the bar, so the decorative blanks go. */
+@media only screen and (max-width: 640px) and (orientation: portrait) and (max-height: 700px) {
+  .wii-channel-icon.blank {
+    display: none;
+  }
+}
+
+/* Landscape phones: three rows plus the 130px bar must fit ~360px, so tiles
+   size off the height instead of the width. */
+@media only screen and (orientation: landscape) and (max-height: 500px) {
+  .wii-classic-top {
+    padding-top: 10px !important;
+  }
+
+  .wii-channel-icon {
+    width: min(32vh, 100%);
+    margin-top: 1.5vh;
   }
 }
 
@@ -1488,12 +1633,36 @@ video {
 
 /* Card footer actions. The Wasm demo launches from here rather than from an
    overlay so the preview art stays untouched. */
+.project-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 0.75rem;
+}
+
 .project-actions {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   margin-left: 0.75rem;
   flex-shrink: 0;
+}
+
+/* 16px glyph, 40px hit area — negative margin keeps the visual spacing. */
+.project-icon-link {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: -12px;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 200ms ease;
+}
+
+.project-icon-link:hover,
+.project-icon-link:active {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .project-play-demo {
@@ -2120,19 +2289,91 @@ html.lenis body {
     grid-template-columns: 1fr;
   }
 
-  .section-arrow-prev { left: 0.5rem; }
-  .section-arrow-next { right: 0.5rem; }
-
+  /* Mid-screen arrows sat on top of the copy. On phones they become a pair of
+     labelled pills pinned to the bottom corners, labels always showing since
+     there's no hover to reveal them. */
   .section-arrow {
-    height: 44px;
+    top: auto;
+    bottom: calc(0.85rem + env(safe-area-inset-bottom));
+    transform: none;
+    height: 42px;
   }
 
+  /* Fades copy out beneath the pills so they don't float over running text. */
+  .section-nav::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(5rem + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, rgba(10, 10, 10, 0.96) 35%, rgba(10, 10, 10, 0));
+    pointer-events: none;
+  }
+
+  .section-arrow:active {
+    transform: scale(0.94);
+  }
+
+  .section-arrow-prev { left: 0.75rem; }
+  .section-arrow-next { right: 0.75rem; }
+
   .section-arrow-glyph {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 40px;
+  }
+
+  .section-arrow-label,
+  .section-arrow:hover .section-arrow-label,
+  .section-arrow:focus-visible .section-arrow-label {
+    max-width: 9rem;
+    opacity: 1;
+    font-size: 0.66rem;
+  }
+
+  .section-arrow-prev .section-arrow-label,
+  .section-arrow-prev:hover .section-arrow-label {
+    padding-right: 0.95rem;
+  }
+
+  .section-arrow-next .section-arrow-label,
+  .section-arrow-next:hover .section-arrow-label {
+    padding-left: 0.95rem;
   }
 
   .section-nav-hint {
     display: none;
+  }
+
+  .back-button {
+    min-height: 40px;
+  }
+
+  .project-play-demo {
+    min-height: 36px;
+    padding: 0.45rem 0.8rem;
+  }
+
+  .project-actions {
+    margin-left: 0;
+  }
+}
+
+/* iOS zooms the whole page into any field under 16px and leaves it zoomed. */
+@media (pointer: coarse) {
+  .contact-field input,
+  .contact-field textarea {
+    font-size: 16px;
+  }
+
+  /* Live blur behind fixed/sticky chrome re-renders on every scroll frame. */
+  .section-header {
+    backdrop-filter: none;
+    background: rgba(10, 10, 10, 0.95);
+  }
+
+  .section-arrow {
+    backdrop-filter: none;
+    background: rgba(16, 16, 18, 0.92);
   }
 }
