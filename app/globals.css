@@ -1281,13 +1281,16 @@ video {
   );
 }
 
-.spotlight-card[data-spotlight='1'],
-.glass-card[data-spotlight='1'],
-.project-card[data-spotlight='1'] {
-  transform: translateY(-3px);
-  box-shadow:
-    0 12px 36px rgba(0, 0, 0, 0.4),
-    0 0 30px -10px hsl(var(--hue) 100% 60% / 0.45);
+/* The lift would jolt cards under a scrolling finger, so it stays mouse-only. */
+@media (hover: hover) {
+  .spotlight-card[data-spotlight='1'],
+  .glass-card[data-spotlight='1'],
+  .project-card[data-spotlight='1'] {
+    transform: translateY(-3px);
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.4),
+      0 0 30px -10px hsl(var(--hue) 100% 60% / 0.45);
+  }
 }
 
 /* Top shine */
