@@ -30,7 +30,7 @@ export default function AboutPage() {
                 <p className="hero-role">{ROLE_LINE}</p>
 
                 <p className="hero-bio">
-                    I&apos;m a Full-Stack Systems Developer and Computer Science Specialist graduate from the University of Toronto. 
+                    I&apos;m a Full Stack Developer and Computer Science Specialist graduate from the University of Toronto. 
                     I have expertise building production-grade ERP features and data visualization
                     engines that hundreds of people use daily.
                     Please explore, take a look at my projects, and reach out if you&apos;d like to chat!

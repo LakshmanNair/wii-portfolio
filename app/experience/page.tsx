@@ -22,7 +22,7 @@ const careerEvents: CareerEvent[] = [
         company: 'U of T → Clearway Construction Inc.',
         year: '26/27',
         description:
-            'I graduated from University of Toronto and started as a Junior Full Stack Systems Developer at Clearway Construction. Within three months, I completely independently shipped an end-to-end expense management app with custom functionality for ~600 employees using React, TypeScript, Django and PostgreSQL. I also built GIST, a geospatial analytics platform for upper management, and cut 400–500ms of latency off core ERP pages.',
+            'I graduated from University of Toronto and started as a Junior Full Stack Developer at Clearway Construction. Within three months, I completely independently shipped an end-to-end expense management app with custom functionality for ~600 employees using React, TypeScript, Django and PostgreSQL. I also built GIST, a geospatial analytics platform for upper management, and cut 400–500ms of latency off core ERP pages.',
         links: [],
     },
     {
